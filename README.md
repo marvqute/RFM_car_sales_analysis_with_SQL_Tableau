@@ -2,9 +2,11 @@
 
 
 ---Inspecting the Data
+
 select * from `sql-sandbox-422308.Sales.sales_data_sample`
 
 --Checking for unique values
+
 select distinct status from `sql-sandbox-422308.Sales.sales_data_sample`-
 select distinct year_id from `sql-sandbox-422308.Sales.sales_data_sample`
 select distinct PRODUCTLINE from `sql-sandbox-422308.Sales.sales_data_sample` 
@@ -12,11 +14,13 @@ select distinct COUNTRY from `sql-sandbox-422308.Sales.sales_data_sample`
 select distinct DEALSIZE from `sql-sandbox-422308.Sales.sales_data_sample`
 select distinct TERRITORY from `sql-sandbox-422308.Sales.sales_data_sample` 
 
-select distinct MONTH_ID from `sql-sandbox-422308.Sales.sales_data_sample`
-where year_id = 2003
+
 
 ---ANALYSIS
+
 ----Let's start by grouping sales by productline
+
+
 select PRODUCTLINE, sum(sales) Revenue
 from `sql-sandbox-422308.Sales.sales_data_sample`
 group by PRODUCTLINE
@@ -30,6 +34,7 @@ order by 2 desc
 
 
 --Revenue by deal size
+
 select  DEALSIZE,  sum(sales) Revenue
 from `sql-sandbox-422308.Sales.sales_data_sample`
 group by  DEALSIZE
@@ -37,6 +42,7 @@ order by 2 desc
 
 
 ----What was the best month for sales in a specific year? How much was earned that month? 
+
 select  MONTH_ID, sum(sales) Revenue, count(ORDERNUMBER) Frequency
 from `sql-sandbox-422308.Sales.sales_data_sample`
 where YEAR_ID = 2004 --change year to see the rest
@@ -45,6 +51,7 @@ order by 2 desc
 
 
 --November seems to be the month, what product do they sell in November, Classic I believe
+
 select  MONTH_ID, PRODUCTLINE, sum(sales) Revenue, count(ORDERNUMBER)
 from `sql-sandbox-422308.Sales.sales_data_sample`
 where YEAR_ID = 2004 and MONTH_ID = 11 --change year to see the rest
@@ -91,6 +98,7 @@ select CUSTOMERNAME , rfm_recency, rfm_frequency, rfm_monetary,
 FROM `sql-sandbox-422308.Sales.Srfm`
 
 --- what city has the highest number of sales in a specific country?
+
 select CITY, sum(SALES) as REVENUE
 from `sql-sandbox-422308.Sales.sales_data_sample`
 where COUNTRY = 'USA' --change country to see the others
@@ -98,6 +106,7 @@ group by CITY
 order by 2 desc
 
 ---what is the best product in the respective countries in terms of sales?
+
 select COUNTRY, PRODUCTLINE
 from (select COUNTRY, PRODUCTLINE, 
 rank() over (partition by COUNTRY order by sum(SALES) desc)as rnk 
