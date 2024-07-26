@@ -12,7 +12,7 @@ select * from `sql-sandbox-422308.Sales.sales_data_sample`
 
 --Checking for unique values
 
-select distinct status from `sql-sandbox-422308.Sales.sales_data_sample`-
+select distinct status from `sql-sandbox-422308.Sales.sales_data_sample`
 select distinct year_id from `sql-sandbox-422308.Sales.sales_data_sample`
 select distinct PRODUCTLINE from `sql-sandbox-422308.Sales.sales_data_sample` 
 select distinct COUNTRY from `sql-sandbox-422308.Sales.sales_data_sample`
