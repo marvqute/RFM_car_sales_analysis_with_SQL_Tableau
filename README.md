@@ -1,10 +1,12 @@
 # RFM_car_sales_analysis_with_SQL_Tableau
  
  --DASHBOARD_1
-https://public.tableau.com/views/sales_dashboard_1_17219193277920/SalesDashboard?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link
+https://public.tableau.com/views/sales_dashboard_1_new_17220228342150/SalesDashboard?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link
 
 --DASHBOARD_2
-https://public.tableau.com/views/sales_dashboard_17219192695850/SalesDashboard2?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link
+
+https://public.tableau.com/views/sales_dashboard_2_new/SalesDashboard2?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link
+
 
 ---Inspecting the Data
 
