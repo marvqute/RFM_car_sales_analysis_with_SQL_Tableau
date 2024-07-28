@@ -12,21 +12,21 @@ https://public.tableau.com/views/sales_dashboard_2_new/SalesDashboard2?:language
 ### SQL CODE
 #### Inspecting the Data
 
-select * from `sql-sandbox-422308.Sales.sales_data_sample`
+     select * from `sql-sandbox-422308.Sales.sales_data_sample`
 
-Checking for unique values
+     Checking for unique values
 
-select distinct status from `sql-sandbox-422308.Sales.sales_data_sample`
+     select distinct status from `sql-sandbox-422308.Sales.sales_data_sample`
 
-select distinct year_id from `sql-sandbox-422308.Sales.sales_data_sample`
+     select distinct year_id from `sql-sandbox-422308.Sales.sales_data_sample`
 
-select distinct PRODUCTLINE from `sql-sandbox-422308.Sales.sales_data_sample` 
+     select distinct PRODUCTLINE from `sql-sandbox-422308.Sales.sales_data_sample` 
 
-select distinct COUNTRY from `sql-sandbox-422308.Sales.sales_data_sample`
+     select distinct COUNTRY from `sql-sandbox-422308.Sales.sales_data_sample`
 
-select distinct DEALSIZE from `sql-sandbox-422308.Sales.sales_data_sample`
+     select distinct DEALSIZE from `sql-sandbox-422308.Sales.sales_data_sample`
 
-select distinct TERRITORY from `sql-sandbox-422308.Sales.sales_data_sample` 
+     select distinct TERRITORY from `sql-sandbox-422308.Sales.sales_data_sample` 
 
 
 
@@ -35,82 +35,82 @@ select distinct TERRITORY from `sql-sandbox-422308.Sales.sales_data_sample`
 ### Let's start by grouping sales by productline
 
 
-select PRODUCTLINE, sum(sales) Revenue
+     select PRODUCTLINE, sum(sales) Revenue
 
-from `sql-sandbox-422308.Sales.sales_data_sample`
+     from `sql-sandbox-422308.Sales.sales_data_sample`
 
-group by PRODUCTLINE
+     group by PRODUCTLINE
 
-order by 2 desc
+     order by 2 desc
 
 
  
  
 ### Revenue by year
 
-select YEAR_ID, sum(sales) Revenue
+      select YEAR_ID, sum(sales) Revenue
 
-from `sql-sandbox-422308.Sales.sales_data_sample`
+      from `sql-sandbox-422308.Sales.sales_data_sample`
 
-group by YEAR_ID
+      group by YEAR_ID
 
-order by 2 desc
+      order by 2 desc
 
 
 
 ### Revenue by deal size
 
-select  DEALSIZE,  sum(sales) Revenue
+     select  DEALSIZE,  sum(sales) Revenue
 
-from `sql-sandbox-422308.Sales.sales_data_sample`
+     from `sql-sandbox-422308.Sales.sales_data_sample`
 
-group by  DEALSIZE
+     group by  DEALSIZE
 
-order by 2 desc
+     order by 2 desc
 
 
 
 ### What was the best month for sales in a specific year? How much was earned that month? 
 
-select  MONTH_ID, sum(sales) Revenue, count(ORDERNUMBER) Frequency
+      select  MONTH_ID, sum(sales) Revenue, count(ORDERNUMBER) Frequency
 
-from `sql-sandbox-422308.Sales.sales_data_sample`
+      from `sql-sandbox-422308.Sales.sales_data_sample`
 
-where YEAR_ID = 2004 --change year to see the rest
+      where YEAR_ID = 2004 --change year to see the rest
 
-group by  MONTH_ID
+      group by  MONTH_ID
 
-order by 2 desc
+      order by 2 desc
 
 
 
 
 ### November seems to be the month, what product do they sell in November, Classic I believe
 
-select  MONTH_ID, PRODUCTLINE, sum(sales) Revenue, count(ORDERNUMBER)
+       select  MONTH_ID, PRODUCTLINE, sum(sales) Revenue, count(ORDERNUMBER)
 
-from `sql-sandbox-422308.Sales.sales_data_sample`
+       from `sql-sandbox-422308.Sales.sales_data_sample`
 
-where YEAR_ID = 2004 and MONTH_ID = 11 --change year to see the rest
+       where YEAR_ID = 2004 and MONTH_ID = 11 --change year to see the rest
 
-group by  MONTH_ID, PRODUCTLINE
+       group by  MONTH_ID, PRODUCTLINE
 
-order by 3 desc
+       order by 3 desc
 
 
 
 
 ### Who is our best customer (this could be best answered with RFM)
 
-DROP TABLE IF EXISTS `sql-sandbox-422308.Sales.#rfm`
+      DROP TABLE IF EXISTS `sql-sandbox-422308.Sales.#rfm`
 
-CREATE TABLE `sql-sandbox-422308.Sales.Srfm` AS
+      CREATE TABLE `sql-sandbox-422308.Sales.Srfm` AS
 
-WITH rfm AS 
+      WITH rfm AS 
 
-(
+      (
 
-  SELECT 
+       SELECT 
   
       CUSTOMERNAME, SUM(SALES) AS REVENUE, AVG(SALES) AS AVG_REVENUE,
       
@@ -120,16 +120,16 @@ WITH rfm AS
       
       DATE_DIFF ((SELECT MAX(ORDERDATE) FROM `sql-sandbox-422308.Sales.sales_data_sample`), MAX(ORDERDATE), DAY) AS RECENCY
       
-  FROM `sql-sandbox-422308.Sales.sales_data_sample`
+      FROM `sql-sandbox-422308.Sales.sales_data_sample`
   
-  GROUP BY CUSTOMERNAME
+      GROUP BY CUSTOMERNAME
   
-),
+       ),
 
-rfm_calc AS 
+     rfm_calc AS 
 
-(
-select r.*,
+     (
+     select r.*,
 
      NTILE(4) OVER (ORDER BY RECENCY DESC) AS rfm_recency,
      
@@ -137,19 +137,19 @@ select r.*,
      
      NTILE(4) OVER (ORDER BY REVENUE) AS rfm_monetary
      
-from rfm AS r
+    from rfm AS r
 
-) 
+     ) 
 
-select c.*, rfm_recency+ rfm_frequency+ rfm_monetary as rfm_cell,
+     select c.*, rfm_recency+ rfm_frequency+ rfm_monetary as rfm_cell,
 
-cast(rfm_recency as string) || cast(rfm_frequency as string) || cast(rfm_monetary  as string) AS rfm_cell_string
+    cast(rfm_recency as string) || cast(rfm_frequency as string) || cast(rfm_monetary  as string) AS rfm_cell_string
 
-from rfm_calc AS c
+    from rfm_calc AS c
 
-select CUSTOMERNAME , rfm_recency, rfm_frequency, rfm_monetary, 
+    select CUSTOMERNAME , rfm_recency, rfm_frequency, rfm_monetary, 
 
-(case 
+    (case 
 
 		when rfm_cell_string in ('111', '112' , '121', '122', '123', '132', '211', '212', '114', '141') then 'lost_customers'  --lost customers
   
@@ -163,41 +163,41 @@ select CUSTOMERNAME , rfm_recency, rfm_frequency, rfm_monetary,
   
 		when rfm_cell_string in ('433', '434', '443', '444') then 'loyal'
   
-	end) as rfm_segment
+       end) as rfm_segment
  
-FROM `sql-sandbox-422308.Sales.Srfm`
+       FROM `sql-sandbox-422308.Sales.Srfm`
 
 
 
 
 ### what city has the highest number of sales in a specific country?
 
-select CITY, sum(SALES) as REVENUE
+         select CITY, sum(SALES) as REVENUE
 
-from `sql-sandbox-422308.Sales.sales_data_sample`
+        from `sql-sandbox-422308.Sales.sales_data_sample`
 
-where COUNTRY = 'USA' --change country to see the others
+        where COUNTRY = 'USA' --change country to see the others
 
-group by CITY
+        group by CITY
 
-order by 2 desc
+       order by 2 desc
 
 
 
 
 ### what is the best product in the respective countries in terms of sales?
 
-select COUNTRY, PRODUCTLINE
+      select COUNTRY, PRODUCTLINE
 
-from (select COUNTRY, PRODUCTLINE, 
+      from (select COUNTRY, PRODUCTLINE, 
 
-rank() over (partition by COUNTRY order by sum(SALES) desc)as rnk 
+      rank() over (partition by COUNTRY order by sum(SALES) desc)as rnk 
 
-from `sql-sandbox-422308.Sales.sales_data_sample`
+      from `sql-sandbox-422308.Sales.sales_data_sample`
 
-group by COUNTRY, PRODUCTLINE) as ranked
+      group by COUNTRY, PRODUCTLINE) as ranked
 
-where rnk = 1   
+      where rnk = 1   
 
 
 
