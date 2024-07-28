@@ -1,5 +1,17 @@
 # RFM car sales analysis with SQL and Tableau
 
+## Introduction
+
+RFM (Recency, Frequency, Monetary) analysis is a marketing technique used to segment customers based on their purchasing behavior. This method helps businesses understand their customer base by analyzing three key factors:
+
+	•	Recency: How recently a customer made a purchase.
+	•	Frequency: How often a customer makes a purchase.
+	•	Monetary: How much money a customer spends.
+
+In the context of car sales, RFM analysis can provide valuable insights into customer behavior, enabling dealerships to tailor their marketing strategies, identify loyal customers, and allocate resources effectively.
+
+
+
 ## TABLEAU DASHBOARD
  
  ### DASHBOARD_1
